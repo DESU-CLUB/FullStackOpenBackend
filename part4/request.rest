@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/blog HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "GI Dogs",
+    "author": "Steve Harlem",
+     "url":"https://robinson-stories.com"
+}

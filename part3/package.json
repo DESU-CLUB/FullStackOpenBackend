@@ -10,17 +10,21 @@
     "build:ui": "rm -rf build && cd ../../FullStackOpenExercises/part2/phonebook && npm run build && cp -r build /home/spooky/Documents/Github\\ Projects/FullStackOpenBackend/part3",
     "deploy": "flyctl deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "flyctl logs"
+    "logs:prod": "flyctl logs",
+    "lint": "eslint ."
   },
   "author": "DESU-CLUB",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.8.2",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.31.0",
+    "lint": "^0.8.19",
     "nodemon": "^2.0.20"
   }
 }
