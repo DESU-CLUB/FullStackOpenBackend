@@ -6,3 +6,46 @@ Content-Type: application/json
     "author": "Steve Harlem",
      "url":"https://robinson-stories.com"
 }
+
+###ADD USER
+POST http://localhost:3001/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"Shibad",
+    "username":"Al Qutali",
+    "password":"Prices"
+}
+
+###
+DELETE http://localhost:3001/api/blog/63be8f08aba1218f915c297e HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFsIFF1dGFsaSIsImlkIjoiNjNiZTg4MjliYzUyZjQ0ODU5YTIwZDJmIiwiaWF0IjoxNjczNDMyNzQ5LCJleHAiOjE2NzM0MzYzNDl9.PCu2OFAVhlVt8k8rgCa56GLjq9VbC60jxxOjXghbMmI
+###LOGIN
+POST http://localhost:3001/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"Shibad",
+    "username":"Al Qutali",
+    "password":"Prices"
+}
+###
+POST http://localhost:3001/api/blog HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFsIFF1dGFsaSIsImlkIjoiNjNiZTg4MjliYzUyZjQ0ODU5YTIwZDJmIiwiaWF0IjoxNjczNDMyNzQ5LCJleHAiOjE2NzM0MzYzNDl9.PCu2OFAVhlVt8k8rgCa56GLjq9VbC60jxxOjXghbMmI
+
+{
+    "title": "GI Dogs",
+    "author": "Shibad",
+     "url":"https://robinson-stories.com"
+}
+
+###
+
+DELETE http://localhost:3001/api/blog HTTP/1.1
+Content-Type: application/json
+
+###
+DELETE http://localhost:3001/api/users HTTP/1.1
+Content-Type: application/json
