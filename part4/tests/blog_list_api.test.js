@@ -7,22 +7,13 @@ const helper=  require('./api_helper')
 const api = supertest(app)
 const bcrypt = require('bcrypt')
 const userRouter = require('../controllers/userRouter')
-const { findOneAndUpdate } = require('../models/blog')
 
 beforeEach(async()=>{
     console.log('Deleting all posts')
     await Blog.deleteMany({})
     await User.deleteMany({})
     
-
-
-    for (let obj of helper.initBlogs){
-        let newobj = new Blog(obj)
-        
-        await newobj.save()
-
-    }
-
+    let userid = 'None'
     for (let obj of helper.initialUser){
         let newobj = new User(obj)
         console.log(obj.password)
@@ -30,6 +21,16 @@ beforeEach(async()=>{
         console.log(newobj.passwordHash)
 
         await newobj.save()
+    }
+
+    userid = await User.findOne({})
+
+    for (let obj of helper.initBlogs){
+        obj.user = userid._id
+        let newobj = new Blog(obj)
+        
+        await newobj.save()
+
     }
 
 })

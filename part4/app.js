@@ -3,7 +3,7 @@ const middleware= require("./utils/middleware")
 const logger = require("./utils/logger")
 const Blog = require("./models/blog")
 const cors = require('cors')
-
+const testingRouter = require('./controllers/testRouter')
 const blogRouter = require('./controllers/blogRouter')
 const userRouter = require('./controllers/userRouter')
 const loginRouter = require('./controllers/loginRouter')
@@ -23,11 +23,14 @@ mongoose.connect(config.MONGODB_URI)
 app.use(cors())
 app.use(express.json())
 app.use(middleware.requestLogger)
-app.use(middleware.tokenHandler)
 
 app.use('/api/login',loginRouter)
-app.use('/api/blog',middleware.userHandler,blogRouter)
+app.use('/api/blog',blogRouter)
 app.use('/api/users',userRouter)
+if (process.env.NODE_ENV === 'test'){
+    app.use('/api/testing',testingRouter)
+}
+
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errHandler)

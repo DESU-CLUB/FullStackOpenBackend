@@ -5,7 +5,7 @@ const User = require('../models/user')
 
 userRouter.post('/', async (req,res)=>{
     const {username,name,password} = req.body
-    
+    console.log('Working')
     if (password.length<3){
         res.status(400).json({error:"Invalid password length"})
     }
@@ -25,7 +25,7 @@ userRouter.post('/', async (req,res)=>{
     })
 
     const savedUser=  await user.save()
-    console.log(savedUser)
+    console.log(savedUser,"working")
     res.status(201).json(savedUser)
 })
 

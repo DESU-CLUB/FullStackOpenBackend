@@ -3,6 +3,8 @@ const blogRouter = require('express').Router()
 const Blog=  require("../models/blog")
 const User = require('../models/user')
 const logger= require('../utils/logger')
+const middleware= require("../utils/middleware")
+
 
 blogRouter.get('/',async (req,res)=>{
     const blogposts = await Blog.find({}).populate('user')
@@ -11,7 +13,7 @@ blogRouter.get('/',async (req,res)=>{
 
 
 
-blogRouter.post('/',async (req,res)=>{
+blogRouter.post('/',middleware.tokenHandler, middleware.userHandler,async (req,res)=>{
     const body = req.body
     console.log(body.title)
     console.log(req.token)
@@ -36,7 +38,10 @@ blogRouter.post('/',async (req,res)=>{
     const result = await post.save()
     assignedUser.blog = assignedUser.blog.concat(result._id)
     await assignedUser.save()
-    res.status(201).json(result)
+
+    //get populated version
+    const newresult = await Blog.findById(result._id).populate('user')
+    res.status(201).json(newresult)
 })
 
 
@@ -50,7 +55,7 @@ blogRouter.get('/:id',async (req,res)=>{
         }
 })
 
-blogRouter.delete('/:id', async (req,res)=>{
+blogRouter.delete('/:id',middleware.tokenHandler,middleware.userHandler, async (req,res)=>{
     const blogid = req.params.id
     const blog = await Blog.findById(blogid)
     console.log(req.user,blog.user)

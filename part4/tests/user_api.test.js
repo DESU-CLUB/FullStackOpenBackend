@@ -15,7 +15,7 @@ beforeEach(async () =>{
 })
 
 describe('Test for POST',()=>{
-    test("Can new valid user join?",async()=>{
+    test.only("Can new valid user join?",async()=>{
         const userObj = {username:'eng',name:'hup',password:'ferry'}
         const resp = await api.post('/api/users')
                   .send(userObj)

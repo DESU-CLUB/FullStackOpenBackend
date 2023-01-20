@@ -8,7 +8,7 @@ loginRouter.post('/',async (req,res)=>{
     const {username,password} = req.body
 
     const user = await User.findOne({username})
-    console.log(user,password)
+    console.log(user,username,password)
     passwordCorrect = user===null?false:bcrypt.compare(password,user.passwordHash)
     //check if password correct to get token
     if (!(user && passwordCorrect)){
@@ -23,7 +23,7 @@ loginRouter.post('/',async (req,res)=>{
 
     const token = jwt.sign(userForToken,process.env.SECRET, {expiresIn:60*60})
 
-    res.status(201).send({token,username:username,name:user.name})
+    res.status(201).json({token,username:username,name:user.name})
 
 })
 module.exports = loginRouter
