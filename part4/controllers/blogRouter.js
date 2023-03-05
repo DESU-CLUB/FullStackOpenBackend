@@ -4,14 +4,36 @@ const Blog=  require("../models/blog")
 const User = require('../models/user')
 const logger= require('../utils/logger')
 const middleware= require("../utils/middleware")
+const Comment = require("../models/comments")
 
 
 blogRouter.get('/',async (req,res)=>{
-    const blogposts = await Blog.find({}).populate('user')
+    const blogposts = await Blog.find({}).populate('user').populate('comment')
     res.json(blogposts)
 })
 
-
+blogRouter.post('/:id',middleware.tokenHandler, middleware.userHandler, async (req,res) =>{
+	const body = req.body
+	if (!req.user){
+    console.log('ERROR HERE')
+	return res.status(401).json({error: "token missing/invalid!"})
+	}
+	const assignedBlog = await Blog.findById(req.params.id)
+	const comment = new Comment({
+				comment: body.comment,
+				blog: req.params.id
+				})
+	const result = await comment.save()
+	console.log(result)
+	assignedBlog.comment = assignedBlog.comment.concat(result._id)
+	await assignedBlog.save()
+	const newResult = await Blog.findById(req.params.id).populate('comment').populate('user')
+	console.log(newResult)
+	res.status(201).json(newResult)
+	
+})
+	
+	
 
 blogRouter.post('/',middleware.tokenHandler, middleware.userHandler,async (req,res)=>{
     const body = req.body
@@ -32,7 +54,6 @@ blogRouter.post('/',middleware.tokenHandler, middleware.userHandler,async (req,r
         user: assignedUser.id
 
     })
-    assignedUser.blog = assignedUser.blog.concat
     
 
     const result = await post.save()
@@ -40,7 +61,7 @@ blogRouter.post('/',middleware.tokenHandler, middleware.userHandler,async (req,r
     await assignedUser.save()
 
     //get populated version
-    const newresult = await Blog.findById(result._id).populate('user')
+    const newresult = await Blog.findById(result._id).populate('user').populate('comment')
     res.status(201).json(newresult)
 })
 
